@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EasyRecipe — дәмді әрі жеңіл рецепттер жинағы">
+  <title>EasyRecipe — Дәмді рецепттер</title>
+  <style>
+    :root { --orange:#FF7A30; --yellow:#FFD369; --cream:#FFF8F0; --text:#333333; --muted:#736d67; --white:#fff; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; font-family:Arial, Helvetica, sans-serif; color:var(--text); background:var(--cream); line-height:1.55; }
+    a { color:inherit; text-decoration:none; }
+    .container { width:min(1120px, 92%); margin:auto; }
+    header { position:sticky; top:0; z-index:10; background:rgba(255,248,240,.94); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,122,48,.12); }
+    .nav { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .logo { display:flex; align-items:center; gap:9px; font-size:1.35rem; font-weight:800; color:var(--orange); }
+    .logo span { display:grid; place-items:center; width:38px; height:38px; color:#fff; background:var(--orange); border-radius:12px; transform:rotate(-7deg); }
+    nav { display:flex; gap:25px; font-weight:600; color:#5c544e; }
+    nav a:hover { color:var(--orange); }
+    .hero { overflow:hidden; padding:82px 0 76px; background:linear-gradient(120deg,#fff6eb 0%,#ffe1ad 100%); }
+    .hero-grid { display:grid; grid-template-columns:1.15fr .85fr; align-items:center; gap:48px; }
+    .eyebrow { display:inline-block; padding:7px 13px; border-radius:20px; color:#9b480d; background:#fff0ce; font-size:.86rem; font-weight:700; }
+    h1 { margin:16px 0 14px; font-size:clamp(2.35rem,5vw,4.4rem); line-height:1.08; letter-spacing:-.04em; }
+    .hero h1 em { color:var(--orange); font-style:normal; }
+    .hero p { max-width:540px; font-size:1.08rem; color:var(--muted); }
+    .search { display:flex; gap:10px; max-width:560px; padding:7px; margin-top:27px; background:#fff; border-radius:16px; box-shadow:0 12px 26px rgba(150,81,22,.14); }
+    .search input { min-width:0; flex:1; padding:12px 14px; border:0; outline:0; font-size:1rem; color:var(--text); }
+    button,.btn { border:0; cursor:pointer; border-radius:11px; padding:12px 19px; background:var(--orange); color:#fff; font-size:.96rem; font-weight:700; transition:.25s ease; }
+    button:hover,.btn:hover { transform:translateY(-2px); background:#e8631d; box-shadow:0 8px 16px rgba(255,122,48,.25); }
+    .hero-art { position:relative; min-height:310px; display:grid; place-items:center; }
+    .plate { width:min(310px,75vw); aspect-ratio:1; display:grid; place-items:center; font-size:9rem; background:#fff; border:16px solid #fff7e9; border-radius:50%; box-shadow:0 19px 0 #ffd369, 0 28px 42px rgba(121,72,21,.18); animation:float 4s ease-in-out infinite; }
+    .blob { position:absolute; z-index:0; width:130px; height:130px; border-radius:45% 55% 55% 45%; background:var(--yellow); opacity:.7; top:15px; right:3%; }
+    .tag { position:absolute; z-index:2; padding:9px 13px; background:#fff; border-radius:12px; font-weight:700; box-shadow:0 9px 19px rgba(100,65,25,.13); }
+    .tag.one { left:0; top:70px; } .tag.two { right:2%; bottom:30px; }
+    @keyframes float { 50% { transform:translateY(-10px) rotate(3deg); } }
+    section { padding:80px 0; }
+    .section-top { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:32px; }
+    h2 { margin:0; font-size:clamp(1.8rem,3vw,2.6rem); letter-spacing:-.03em; }
+    .section-top p { margin:0; color:var(--muted); }
+    .recipes { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+    .card { display:flex; flex-direction:column; overflow:hidden; background:#fff; border-radius:19px; box-shadow:0 7px 20px rgba(98,66,34,.08); transition:transform .27s ease, box-shadow .27s ease; }
+    .card:hover { transform:scale(1.035); box-shadow:0 17px 32px rgba(98,66,34,.16); }
+    .food { display:grid; place-items:center; min-height:155px; font-size:4.8rem; background:linear-gradient(135deg,#fff1d6,#ffe0a1); }
+    .card:nth-child(2n) .food { background:linear-gradient(135deg,#ffe0d0,#ffd4b0); }
+    .card-body { display:flex; flex:1; flex-direction:column; padding:18px; }
+    .card h3 { margin:0 0 6px; font-size:1.18rem; }
+    .meta { display:flex; justify-content:space-between; gap:8px; color:var(--muted); font-size:.88rem; }
+    .stars { margin:10px 0 17px; color:#f7ae19; letter-spacing:1px; }
+    .card .btn { align-self:flex-start; margin-top:auto; padding:9px 13px; font-size:.88rem; }
+    .empty { display:none; grid-column:1/-1; padding:30px; text-align:center; color:var(--muted); }
+    .about { background:#fff; }
+    .about-grid { display:grid; grid-template-columns:.85fr 1.15fr; gap:58px; align-items:center; }
+    .about-icon { display:grid; place-items:center; min-height:265px; font-size:8rem; border-radius:26px; background:linear-gradient(145deg,var(--yellow),#ffb969); }
+    .about p { color:var(--muted); }
+    .points { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:22px; }
+    .point { padding:12px; border-radius:12px; background:var(--cream); font-weight:700; }
+    .contact { text-align:center; }
+    .contact-box { max-width:690px; margin:auto; padding:42px 30px; border-radius:25px; color:#fff; background:var(--orange); box-shadow:0 18px 35px rgba(255,122,48,.25); }
+    .contact-box h2 { margin-bottom:10px; } .contact-box p { margin:0 auto 22px; opacity:.91; }
+    .contact-box .btn { background:var(--yellow); color:#5b351d; } .contact-box .btn:hover { background:#ffde87; }
+    footer { padding:25px 0; text-align:center; color:#7a7169; border-top:1px solid #f0ded0; font-size:.92rem; }
+    @media (max-width:760px) { .nav { min-height:62px; } nav { gap:13px; font-size:.87rem; } .hero { padding:57px 0 52px; } .hero-grid,.about-grid { grid-template-columns:1fr; gap:28px; } .hero-art { min-height:250px; order:-1; } .plate { width:220px; font-size:6rem; border-width:12px; } .tag { font-size:.8rem; } .recipes { grid-template-columns:repeat(2,1fr); gap:15px; } section { padding:58px 0; } .food { min-height:115px; font-size:3.7rem; } .card-body { padding:14px; } }
+    @media (max-width:440px) { nav a:nth-child(3) { display:none; } .recipes { grid-template-columns:1fr; } .search { flex-direction:column; } .search button { width:100%; } .points { grid-template-columns:1fr; } .section-top { display:block; } .section-top p { margin-top:8px; } }
+  </style>
+</head>
+<body>
+  <header><div class="container nav"><a class="logo" href="#home"><span>🍴</span>EasyRecipe</a><nav><a href="#home">Басты бет</a><a href="#recipes">Рецепттер</a><a href="#about">Біз туралы</a><a href="#contact">Байланыс</a></nav></div></header>
+  <main>
+    <section class="hero" id="home"><div class="container hero-grid"><div><span class="eyebrow">🍊 Күн сайын жаңа дәм</span><h1>Ас әзірлеуді <em>жеңіл</em> әрі дәмді етейік!</h1><p>Үйдегі қарапайым өнімдерден керемет тағамдар дайындаңыз. Сүйікті рецептіңізді қазір табыңыз.</p><div class="search"><input id="searchInput" type="search" placeholder="Рецепт атауын іздеңіз…" aria-label="Рецепт іздеу"><button id="searchButton">🔍 Іздеу</button></div></div><div class="hero-art"><div class="blob"></div><div class="plate">🍝</div><div class="tag one">⏱ Жылдам әрі оңай</div><div class="tag two">⭐ 4.9 рейтинг</div></div></div></section>
+    <section id="recipes"><div class="container"><div class="section-top"><div><h2>Танымал рецепттер</h2><p>Барлығы тез, түсінікті және өте дәмді.</p></div></div><div class="recipes" id="recipeGrid">
+      <article class="card" data-name="Пицца"><div class="food">🍕</div><div class="card-body"><h3>Үй пиццасы</h3><div class="meta"><span>⏱ 30 минут</span><span>Оңай</span></div><div class="stars">★★★★★</div><a class="btn" href="#contact">Рецептті қарау</a></div></article>
+      <article class="card" data-name="Паста"><div class="food">🍝</div><div class="card-body"><h3>Кремді паста</h3><div class="meta"><span>⏱ 25 минут</span><span>Оңай</span></div><div class="stars">★★★★★</div><a class="btn" href="#contact">Рецептті қарау</a></div></article>
+      <article class="card" data-name="Бургер"><div class="food">🍔</div><div class="card-body"><h3>Шырынды бургер</h3><div class="meta"><span>⏱ 35 минут</span><span>Орташа</span></div><div class="stars">★★★★★</div><a class="btn" href="#contact">Рецептті қарау</a></div></article>
+      <article class="card" data-name="Салат"><div class="food">🥗</div><div class="card-body"><h3>Балғын салат</h3><div class="meta"><span>⏱ 15 минут</span><span>Оңай</span></div><div class="stars">★★★★★</div><a class="btn" href="#contact">Рецептті қарау</a></div></article>
+      <article class="card" data-name="Сорпа"><div class="food">🍲</div><div class="card-body"><h3>Көкөніс сорпасы</h3><div class="meta"><span>⏱ 40 минут</span><span>Оңай</span></div><div class="stars">★★★★☆</div><a class="btn" href="#contact">Рецептті қарау</a></div></article>
+      <article class="card" data-name="Десерт"><div class="food">🍰</div><div class="card-body"><h3>Жидекті десерт</h3><div class="meta"><span>⏱ 20 минут</span><span>Оңай</span></div><div class="stars">★★★★★</div><a class="btn" href="#contact">Рецептті қарау</a></div></article>
+      <p class="empty" id="empty">Өкінішке қарай, мұндай рецепт табылмады. Басқа атауды байқап көріңіз.</p>
+    </div></div></section>
+    <section class="about" id="about"><div class="container about-grid"><div class="about-icon">👩‍🍳</div><div><span class="eyebrow">EasyRecipe жайлы</span><h2>Ас үйдегі сенімді көмекшіңіз</h2><p>EasyRecipe — тамақ пісіруді жақсы көретін жандарға арналған жылы алаң. Біз күнделікті ас дайындауды шабытқа толы, қарапайым және қолжетімді етуге көмектесеміз.</p><div class="points"><div class="point">✓ Тексерілген рецепттер</div><div class="point">✓ Қарапайым қадамдар</div><div class="point">✓ Баршаға қолайлы</div><div class="point">✓ Күнделікті идеялар</div></div></div></div></section>
+    <section class="contact" id="contact"><div class="container"><div class="contact-box"><h2>Жаңа рецепттерді жіберейік пе?</h2><p>Апта сайын дәмді идеялар мен ас үйге арналған кеңестер алыңыз.</p><a class="btn" href="mailto:hello@easyrecipe.kz">Бізге жазыңыз →</a></div></div></section>
+  </main><footer><div class="container">© 2026 EasyRecipe · Дәмді сәттер әр үйде болсын 🍽️</div></footer>
+  <script>
+    const input = document.getElementById('searchInput');
+    const cards = [...document.querySelectorAll('.card')];
+    const empty = document.getElementById('empty');
+    function filterRecipes() { const query = input.value.trim().toLocaleLowerCase('kk'); let shown = 0; cards.forEach(card => { const match = card.textContent.toLocaleLowerCase('kk').includes(query) || card.dataset.name.toLocaleLowerCase('kk').includes(query); card.style.display = match ? 'flex' : 'none'; if (match) shown++; }); empty.style.display = shown ? 'none' : 'block'; document.getElementById('recipes').scrollIntoView({ behavior:'smooth', block:'start' }); }
+    document.getElementById('searchButton').addEventListener('click', filterRecipes);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') filterRecipes(); });
+    input.addEventListener('input', () => { if (!input.value) { cards.forEach(card => card.style.display = 'flex'); empty.style.display = 'none'; } });
+  </script>
+</body>
+</html>
